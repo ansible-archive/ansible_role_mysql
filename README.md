@@ -1,6 +1,6 @@
 # Ansible Role: MySQL
 
-[![CI](https://github.com/geerlingguy/ansible-role-mysql/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-mysql/actions?query=workflow%3ACI)
+<!-- [![CI](https://github.com/geerlingguy/ansible-role-mysql/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-mysql/actions?query=workflow%3ACI) -->
 
 Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu servers.
 
@@ -8,10 +8,11 @@ Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu 
 
 No special requirements; note that this role requires root access, so either run it in a playbook with a global `become: yes`, or invoke the role in your playbook like:
 
-    - hosts: database
-      roles:
-        - role: geerlingguy.mysql
-          become: yes
+```yaml
+- hosts: database
+  roles:
+    - {role: do1jlr.mysql, tags: mysql}
+```
 
 ## Role Variables
 
@@ -43,7 +44,7 @@ Whether MySQL should be enabled on startup.
 
     mysql_config_file: *default value depends on OS*
     mysql_config_include_dir: *default value depends on OS*
-    
+
 The main my.cnf configuration file and include directory.
 
     overwrite_global_mycnf: true
@@ -139,7 +140,7 @@ If you want to install MySQL from the official repository instead of installing 
         name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
         state: present
       when: ansible_os_family == "RedHat"
-  
+
     - name: Override variables for MySQL (RedHat).
       set_fact:
         mysql_daemon: mysqld
@@ -196,4 +197,5 @@ MIT / BSD
 
 ## Author Information
 
-This role was created in 2014 by [Jeff Geerling](https://www.jeffgeerling.com/), author of [Ansible for DevOps](https://www.ansiblefordevops.com/).
++ This role was created in 2014 by [Jeff Geerling](https://www.jeffgeerling.com/), author of [Ansible for DevOps](https://www.ansiblefordevops.com/).
++ This role was forked 2021 by [L3D](https://chaos.social/@l3d) and upgraded to the current version.
