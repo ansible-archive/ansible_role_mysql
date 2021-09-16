@@ -3,16 +3,13 @@ dependencies: []
 
 galaxy_info:
   role_name: mysql
-  author: geerlingguy
-  description: MySQL server for RHEL/CentOS and Debian/Ubuntu.
-  company: "Midwestern Mac, LLC"
+  author: do1jlr
+  description: Ansible role to install and configure a MySQL server for RHEL/CentOS and Debian/Ubuntu.
   license: "license (BSD, MIT)"
-  min_ansible_version: 2.4
+  min_ansible_version: 2.11
   platforms:
     - name: EL
-      versions:
-        - 7
-        - 8
+      versions: all
     - name: Ubuntu
       versions:
         - all
