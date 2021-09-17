@@ -19,35 +19,35 @@ pid-file = {{ mysql_pid_file }}
 {%- endif %}
 
 # SSL configuration
-{%- if mysql_ssl_ca and mysql_ssl_ca is defined -%}
+{%- if mysql_ssl_ca | default(false) -%}
   {{- '\n' -}} ssl_ca = {{ mysql_ssl_ca }}
 {%- endif %}
-{%- if mysql_ssl_capath and mysql_ssl_capath is defined -%}
+{%- if mysql_ssl_capath | default(false) -%}
   {{- '\n' -}} ssl_capath = {{ mysql_ssl_capath }}
 {%- endif %}
-{%- if mysql_ssl_cert and mysql_ssl_cert is defined -%}
+{%- if mysql_ssl_cert | default(false) -%}
   {{- '\n' -}} ssl_cert = {{ mysql_ssl_cert }}
 {%- endif -%}
-{%- if mysql_ssl_key and mysql_ssl_key is defined -%}
+{%- if mysql_ssl_key | default(false) -%}
   {{- '\n' -}} ssl_key = {{ mysql_ssl_key }}
 {%- endif %}
-{%- if mysql_require_secure_transport and mysql_require_secure_transport is defined -%}
+{%- if mysql_require_secure_transport | default(false) -%}
   {{- '\n' -}} require_secure_transport = {{ mysql_require_secure_transport }}
 {%- endif %}
-{%- if mysql_ssl_cipher and mysql_ssl_cipher is defined -%}
+{%- if mysql_ssl_cipher | default(false) -%}
   {{- '\n' -}} ssl_cipher = {{ mysql_ssl_cipher }}
 {%- endif %}
-{%- if mysql_ssl_crl and mysql_ssl_crl is defined -%}
+{%- if mysql_ssl_crl | default(false) -%}
   {{- '\n' -}} ssl_crl = {{ mysql_ssl_crl }}
 {%- endif %}
-{%- if mysql_ssl_crlpath and mysql_ssl_crlpath is defined -%}
+{%- if mysql_ssl_crlpath | default(false) -%}
   {{- '\n' -}} ssl_crlpath = {{ mysql_ssl_crlpath  }}
 {%- endif %}
-{%- if mysql_tls_version and mysql_tls_version is defined -%}
+{%- if mysql_tls_version | default(false) -%}
   {{- '\n' -}} tls_version = {{ mysql_tls_version }}
 {%- endif %}
 
-{% if mysql_additional_server_variables -%}
+{% if mysql_additional_server_variables | default(false) -%}
   {{- '\n' -}} # Server variables
   {%- for var_name, var_value in mysql_additional_server_variables.items() -%}
     {{- '\n' -}} {{ var_name }} = {{ var_value }}
