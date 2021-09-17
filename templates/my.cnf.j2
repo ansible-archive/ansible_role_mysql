@@ -23,7 +23,7 @@ pid-file = {{ mysql_pid_file }}
   {{- '\n' -}} ssl_ca = {{ mysql_ssl_ca }}
 {%- endif %}
 {%- if mysql_ssl_capath -%}
-  {{- '\n' -}} ssl_capath = {{ mysql_ssl_capath %}
+  {{- '\n' -}} ssl_capath = {{ mysql_ssl_capath }}
 {%- endif %}
 {%- if mysql_ssl_cert -%}
   {{- '\n' -}} ssl_cert = {{ mysql_ssl_cert }}
