@@ -11,89 +11,90 @@ bind-address = {{ mysql_bind_address }}
 datadir = {{ mysql_datadir }}
 socket = {{ mysql_socket }}
 pid-file = {{ mysql_pid_file }}
-{% if mysql_skip_name_resolve %}
-skip-name-resolve
-{% endif %}
-{% if mysql_sql_mode is not none %}
-sql_mode = {{ mysql_sql_mode }}
-{% endif %}
+{%- if mysql_skip_name_resolve -%}
+  {{- '\n' -}} skip-name-resolve
+{%- endif %}
+{%- if mysql_sql_mode is not none -%}
+  {{- '\n' -}} sql_mode = {{ mysql_sql_mode }}
+{%- endif %}
 
 # SSL configuration
-{% if mysql_ssl_ca %}
-ssl_ca = {{ mysql_ssl_ca }}
-{% endif %}
-{% if mysql_ssl_capath %}
-ssl_capath = {{ mysql_ssl_capath %}
-{% endif %}
-{% if mysql_ssl_cert %}
-ssl_cert = {{ mysql_ssl_cert }}
-{% endif %}
-{% if mysql_ssl_key %}
-ssl_key = {{ mysql_ssl_key }}
-{% endif %}
-{% if mysql_require_secure_transport %}
-require_secure_transport = {{ mysql_require_secure_transport }}
-{% endif %}
-{% if mysql_ssl_cipher  %}
-ssl_cipher = {{ mysql_ssl_cipher }}
-{% endif %}
-{% if mysql_ssl_crl %}
-ssl_crl = {{ mysql_ssl_crl }}
-{% endif %}
-{% if mysql_ssl_crlpath  %}
-ssl_crlpath = {{ mysql_ssl_crlpath  }}
-{% endif %}
-{% if mysql_tls_version %}
-tls_version = {{ mysql_tls_version }}
+{%- if mysql_ssl_ca -%}
+  {{- '\n' -}} ssl_ca = {{ mysql_ssl_ca }}
+{%- endif %}
+{%- if mysql_ssl_capath -%}
+  {{- '\n' -}} ssl_capath = {{ mysql_ssl_capath %}
+{%- endif %}
+{%- if mysql_ssl_cert -%}
+  {{- '\n' -}} ssl_cert = {{ mysql_ssl_cert }}
+{%- endif -%}
+{%- if mysql_ssl_key -%}
+  {{- '\n' -}} ssl_key = {{ mysql_ssl_key }}
+{%- endif %}
+{%- if mysql_require_secure_transport -%}
+  {{- '\n' -}} require_secure_transport = {{ mysql_require_secure_transport }}
+{%- endif %}
+{%- if mysql_ssl_cipher -%}
+  {{- '\n' -}} ssl_cipher = {{ mysql_ssl_cipher }}
+{%- endif %}
+{%- if mysql_ssl_crl -%}
+  {{- '\n' -}} ssl_crl = {{ mysql_ssl_crl }}
+{%- endif %}
+{%- if mysql_ssl_crlpath -%}
+  {{- '\n' -}} ssl_crlpath = {{ mysql_ssl_crlpath  }}
+{%- endif %}
+{%- if mysql_tls_version -%}
+  {{- '\n' -}} tls_version = {{ mysql_tls_version }}
+{%- endif %}
 
-{% if mysql_additional_server_variables %}
-# Server variables
-{% for var_name, var_value in mysql_additional_server_variables.items() %}
-{{ var_name }} = {{ var_value }}
-{% endfor %}
-{% endif %}
+{% if mysql_additional_server_variables -%}
+  {{- '\n' -}} # Server variables
+  {%- for var_name, var_value in mysql_additional_server_variables.items() -%}
+    {{- '\n' -}} {{ var_name }} = {{ var_value }}
+  {%- endfor -%}
+{%- endif %}
 
 # Logging configuration.
-{% if mysql_log_error != 'syslog' and mysql_log != 'syslog' %}
-{% if mysql_log %}
-log = {{ mysql_log }}
-{% endif %}
-log-error = {{ mysql_log_error }}
-{% endif %}
+{% if mysql_log_error != 'syslog' and mysql_log != 'syslog' -%}
+  {%- if mysql_log -%}
+    {{- '\n' -}} log = {{ mysql_log }}
+  {%- endif -%}
+  {{- '\n' -}} log-error = {{ mysql_log_error }}
+{%- endif %}
 
-{% if mysql_slow_query_log_enabled %}
-# Slow query log configuration.
-slow_query_log = 1
-slow_query_log_file = {{ mysql_slow_query_log_file }}
-long_query_time = {{ mysql_slow_query_time }}
-{% endif %}
+{% if mysql_slow_query_log_enabled -%}
+  {{- '\n' -}} # Slow query log configuration.
+  {{- '\n' -}} slow_query_log = 1
+  {{- '\n' -}} slow_query_log_file = {{ mysql_slow_query_log_file }}
+  {{- '\n' -}} long_query_time = {{ mysql_slow_query_time }}
+{%- endif %}
 
-{% if mysql_replication_master %}
-# Replication
-server-id = {{ mysql_server_id }}
+{% if mysql_replication_master -%}
+  {{- '\n' -}} # Replication
+  {{- '\n' -}} server-id = {{ mysql_server_id }}
 
-{% if mysql_replication_role == 'master' %}
-log_bin = mysql-bin
-log-bin-index = mysql-bin.index
-expire_logs_days = {{ mysql_expire_logs_days }}
-max_binlog_size = {{ mysql_max_binlog_size }}
-binlog_format = {{mysql_binlog_format}}
+  {% if mysql_replication_role == 'master' -%}
+    {{- '\n' -}} log_bin = mysql-bin
+    {{- '\n' -}} log-bin-index = mysql-bin.index
+    {{- '\n' -}} expire_logs_days = {{ mysql_expire_logs_days }}
+    {{- '\n' -}} max_binlog_size = {{ mysql_max_binlog_size }}
+    {{- '\n' -}} binlog_format = {{mysql_binlog_format}}
 
-{% for db in mysql_databases %}
-{% if db.replicate|default(1) %}
-binlog_do_db = {{ db.name }}
-{% else %}
-binlog_ignore_db = {{ db.name }}
-{% endif %}
-{% endfor %}
-{% endif %}
+    {% for db in mysql_databases -%}
+      {%- if db.replicate|default(1) -%}
+        {{- '\n' -}} binlog_do_db = {{ db.name }}
+      {%- else -%}
+        {{- '\n' -}} binlog_ignore_db = {{ db.name }}
+      {%- endif -%}
+    {%- endfor %}
+  {%- endif %}
 
-{% if mysql_replication_role == 'slave' %}
-read_only
-relay-log = relay-bin
-relay-log-index = relay-bin.index
-{% endif %}
-{% endif %}
+  {%- if mysql_replication_role == 'slave' -%}
+    {{- '\n' -}} read_only
+    {{- '\n' -}} relay-log = relay-bin
+    {{- '\n' -}} relay-log-index = relay-bin.index
+  {%- endif %}
+{%- endif %}
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links = 0
@@ -113,11 +114,11 @@ read_buffer_size = {{ mysql_read_buffer_size }}
 read_rnd_buffer_size = {{ mysql_read_rnd_buffer_size }}
 myisam_sort_buffer_size = {{ mysql_myisam_sort_buffer_size }}
 thread_cache_size = {{ mysql_thread_cache_size }}
-{% if '8.0.' not in mysql_cli_version.stdout %}
-query_cache_type = {{ mysql_query_cache_type }}
-query_cache_size = {{ mysql_query_cache_size }}
-query_cache_limit = {{ mysql_query_cache_limit }}
-{% endif %}
+{%- if '8.0.' not in mysql_cli_version.stdout -%}
+  {{- '\n' -}} query_cache_type = {{ mysql_query_cache_type }}
+  {{- '\n' -}} query_cache_size = {{ mysql_query_cache_size }}
+  {{- '\n' -}} query_cache_limit = {{ mysql_query_cache_limit }}
+{%- endif -%} {{- '\n' -}}
 max_connections = {{ mysql_max_connections }}
 tmp_table_size = {{ mysql_tmp_table_size }}
 max_heap_table_size = {{ mysql_max_heap_table_size }}
@@ -130,10 +131,10 @@ lower_case_table_names = {{ mysql_lower_case_table_names }}
 event_scheduler = {{ mysql_event_scheduler_state }}
 
 # InnoDB settings.
-{% if mysql_supports_innodb_large_prefix and '8.0.' not in mysql_cli_version.stdout %}
-innodb_large_prefix = {{ mysql_innodb_large_prefix }}
-innodb_file_format = {{ mysql_innodb_file_format }}
-{% endif %}
+{%- if mysql_supports_innodb_large_prefix and '8.0.' not in mysql_cli_version.stdout -%}
+  {{- '\n' -}} innodb_large_prefix = {{ mysql_innodb_large_prefix }}
+  {{- '\n' -}} innodb_file_format = {{ mysql_innodb_file_format }}
+{%- endif %}
 innodb_file_per_table = {{ mysql_innodb_file_per_table }}
 innodb_buffer_pool_size = {{ mysql_innodb_buffer_pool_size }}
 innodb_log_file_size = {{ mysql_innodb_log_file_size }}
@@ -148,15 +149,15 @@ max_allowed_packet = {{ mysql_mysqldump_max_allowed_packet }}
 [mysqld_safe]
 pid-file = {{ mysql_pid_file }}
 
-{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' %}
-# Logging configuration.
-syslog
-syslog-tag = {{ mysql_syslog_tag }}
-{% endif %}
+{% if mysql_log_error == 'syslog' or mysql_log == 'syslog' -%}
+  {{- '\n' -}} # Logging configuration.
+  {{- '\n' -}} syslog
+  {{- '\n' -}} syslog-tag = {{ mysql_syslog_tag }}
+{%- endif %}
 
 {% if mysql_config_include_files | length %}
-# * IMPORTANT: Additional settings that can override those from this file!
-#   The files must end with '.cnf', otherwise they'll be ignored.
-#
-!includedir {{ mysql_config_include_dir }}
+  {{- '\n' -}} # * IMPORTANT: Additional settings that can override those from this file!
+  {{- '\n' -}} #   The files must end with '.cnf', otherwise they'll be ignored.
+  {{- '\n' -}} #
+  {{- '\n' -}} !includedir {{ mysql_config_include_dir }}
 {% endif %}
