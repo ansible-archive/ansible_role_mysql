@@ -19,31 +19,31 @@ pid-file = {{ mysql_pid_file }}
 {%- endif %}
 
 # SSL configuration
-{%- if mysql_ssl_ca -%}
+{%- if mysql_ssl_ca and mysql_ssl_ca is defined -%}
   {{- '\n' -}} ssl_ca = {{ mysql_ssl_ca }}
 {%- endif %}
-{%- if mysql_ssl_capath -%}
+{%- if mysql_ssl_capath and mysql_ssl_capath is defined -%}
   {{- '\n' -}} ssl_capath = {{ mysql_ssl_capath }}
 {%- endif %}
-{%- if mysql_ssl_cert -%}
+{%- if mysql_ssl_cert and mysql_ssl_cert is defined -%}
   {{- '\n' -}} ssl_cert = {{ mysql_ssl_cert }}
 {%- endif -%}
-{%- if mysql_ssl_key -%}
+{%- if mysql_ssl_key and mysql_ssl_key is defined -%}
   {{- '\n' -}} ssl_key = {{ mysql_ssl_key }}
 {%- endif %}
-{%- if mysql_require_secure_transport -%}
+{%- if mysql_require_secure_transport and mysql_require_secure_transport is defined -%}
   {{- '\n' -}} require_secure_transport = {{ mysql_require_secure_transport }}
 {%- endif %}
-{%- if mysql_ssl_cipher -%}
+{%- if mysql_ssl_cipher and mysql_ssl_cipher is defined -%}
   {{- '\n' -}} ssl_cipher = {{ mysql_ssl_cipher }}
 {%- endif %}
-{%- if mysql_ssl_crl -%}
+{%- if mysql_ssl_crl and mysql_ssl_crl is defined -%}
   {{- '\n' -}} ssl_crl = {{ mysql_ssl_crl }}
 {%- endif %}
-{%- if mysql_ssl_crlpath -%}
+{%- if mysql_ssl_crlpath and mysql_ssl_crlpath is defined -%}
   {{- '\n' -}} ssl_crlpath = {{ mysql_ssl_crlpath  }}
 {%- endif %}
-{%- if mysql_tls_version -%}
+{%- if mysql_tls_version and mysql_tls_version is defined -%}
   {{- '\n' -}} tls_version = {{ mysql_tls_version }}
 {%- endif %}
 
