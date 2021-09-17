@@ -1,5 +1,11 @@
 # Ansible Role: MySQL
 
+```
+DO NOT USE.
+
+UNDER DEVELOPEMENT!
+```
+
 <!-- [![CI](https://github.com/geerlingguy/ansible-role-mysql/workflows/CI/badge.svg?event=push)](https://github.com/geerlingguy/ansible-role-mysql/actions?query=workflow%3ACI) -->
 
 Installs and configures MySQL or MariaDB server on RHEL/CentOS or Debian/Ubuntu servers.
