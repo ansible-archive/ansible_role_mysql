@@ -7,6 +7,7 @@
     password: "{{ mysql_replication_user.password }}"
     priv: "{{ mysql_replication_user.priv | default('*.*:REPLICATION SLAVE,REPLICATION CLIENT') }}"
     state: present
+    config_file: "{{ mysql_config_file }}"
   when:
     - mysql_replication_role == 'master'
     - mysql_replication_user.name is defined
