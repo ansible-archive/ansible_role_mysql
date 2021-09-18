@@ -1,4 +1,5 @@
 [![Ansible Galaxy](https://raw.githubusercontent.com/roles-ansible/ansible_role_mysql/main/.github/galaxy.svg?sanitize=true)](https://galaxy.ansible.com/do1jlr/mysql) [![MIT License](https://raw.githubusercontent.com/roles-ansible/ansible_role_mysql/main/.github/license.svg?sanitize=true)](https://github.com/roles-ansible/ansible_role_mysql/blob/main/LICENSE)
+
  ansible role MySQL
 ===================
 
@@ -195,7 +196,7 @@ None.
   vars_files:
     - vars/main.yml
   roles:
-   - { role: do1jlr.mysql }
+   - {role: do1jlr.mysql, tags: [mysql]}
 ```
 
 *Inside `vars/main.yml`*:
