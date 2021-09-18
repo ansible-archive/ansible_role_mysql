@@ -1,5 +1,6 @@
 ---
 - name: Ensure replication user exists on master.
+  become: true
   community.mysql.mysql_user:
     name: "{{ mysql_replication_user.name }}"
     host: "{{ mysql_replication_user.host | default('%') }}"
@@ -13,6 +14,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Check slave replication status.
+  become: true
   community.mysql.mysql_replication:
     mode: getslave
     login_user: "{{ mysql_replication_user.name }}"
@@ -25,7 +27,9 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Check master replication status.
-  community.mysql.mysql_replication: mode=getmaster
+  become: true
+  community.mysql.mysql_replication:
+    mode: 'getmaster'
   delegate_to: "{{ mysql_replication_master }}"
   register: master
   when:
@@ -35,6 +39,7 @@
   tags: ['skip_ansible_galaxy']
 
 - name: Configure replication on the slave.
+  become: true
   community.mysql.mysql_replication:
     mode: changemaster
     master_host: "{{ mysql_replication_master }}"
@@ -50,7 +55,9 @@
     - (mysql_replication_master | length) > 0
 
 - name: Start replication.
-  community.mysql.mysql_replication: mode=startslave
+  become: true
+  community.mysql.mysql_replication:
+    mode: startslave
   when:
     - (slave.Is_Slave is defined and not slave.Is_Slave) or (slave.Is_Slave is not defined and slave is failed)
     - mysql_replication_role == 'slave'

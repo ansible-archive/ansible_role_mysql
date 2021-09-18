@@ -1,6 +1,15 @@
 ---
 - name: restart mysql
+  become: true
   ansible.builtin.service:
     name: "{{ mysql_daemon }}"
     state: restarted
     sleep: 5
+  when: ansible_service_mgr != "systemd"
+
+- name: restart mysql
+  become: true
+  ansible.builtin.systemd:
+    name: "{{ mysql_daemon }}"
+    state: restarted
+  when: ansible_service_mgr == "systemd"

@@ -1,5 +1,6 @@
 ---
 - name: Ensure MySQL databases are present.
+  become: true
   community.mysql.mysql_db:
     name: "{{ item.name }}"
     collation: "{{ item.collation | default('utf8_general_ci') }}"
