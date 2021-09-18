@@ -26,7 +26,7 @@
   community.mysql.mysql_query:
     login_db: 'mysql'
     query: "DELETE FROM user WHERE User='{{ mysql_root_username }}' AND Host NOT IN ('localhost', '127.0.0.1', '::1')"
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   changed_when: false
 
 - name: Get list of hosts for the root user.
@@ -34,7 +34,7 @@
   community.mysql.mysql_query:
     login_db: 'mysql'
     query: "SELECT Host FROM user WHERE User = '{{ mysql_root_username }}' ORDER BY (Host='localhost') ASC"
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   register: mysql_root_hosts
   changed_when: false
   check_mode: false
@@ -49,7 +49,7 @@
     query:
       - 'ALTER USER "{{ mysql_root_username }}"@"{{ item }}" IDENTIFIED WITH mysql_native_password BY "{{ mysql_root_password }}"'
       - 'FLUSH PRIVILEGES'
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
@@ -62,7 +62,7 @@
     query:
       - 'SET PASSWORD FOR "{{ mysql_root_username }}"@"{{ item }}" = PASSWORD("{{ mysql_root_password }}")'
       - 'FLUSH PRIVILEGES'
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   with_items: "{{ mysql_root_hosts.stdout_lines|default([]) }}"
   when: >
     ((mysql_install_packages | bool) or mysql_root_password_update)
@@ -83,7 +83,7 @@
   become: true
   community.mysql.mysql_query:
     query: 'SELECT Host FROM mysql.user WHERE User = ""'
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   register: mysql_anonymous_hosts
   changed_when: false
   check_mode: false
@@ -94,7 +94,7 @@
     name: ""
     host: "{{ item }}"
     state: absent
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
 
 - name: Remove MySQL test database.
@@ -102,4 +102,4 @@
   community.mysql.mysql_db:
     name: 'test'
     state: absent
-    config_file: "{{ mysql_config_file }}"
+    config_file: "{{ mysql_root_home }}/.my.cnf"
