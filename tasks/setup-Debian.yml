@@ -7,7 +7,7 @@
 
 - name: Check if MySQL is already installed.
   ansible.builtin.stat:
-    path: '/etc/init.d/mysql'
+    path: "/lib/systemd/system/{{ mysql_daemon }}.service"
   register: mysql_installed
   when: ansible_service_mgr == "systemd"
 
