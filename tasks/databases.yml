@@ -6,4 +6,5 @@
     collation: "{{ item.collation | default('utf8_general_ci') }}"
     encoding: "{{ item.encoding | default('utf8') }}"
     state: "{{ item.state | default('present') }}"
+    config_file: "{{ mysql_config_file }}"
   with_items: "{{ mysql_databases }}"
