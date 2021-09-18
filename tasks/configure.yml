@@ -108,3 +108,4 @@
     enabled: "{{ mysql_enabled_on_startup }}"
   register: mysql_service_configuration
   when: ansible_service_mgr == "systemd"
+  tags: skip_molecule

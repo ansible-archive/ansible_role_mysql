@@ -1,10 +1,9 @@
 ---
 - name: Converge
   hosts: all
-  become: true
 
   roles:
-    - role: do1jlr.mysql
+    - {role: do1jlr.mysql}
 
   post_tasks:
     - name: Make sure we can connect to MySQL via Unix socket.
