@@ -32,10 +32,7 @@
   become: true
   community.mysql.mysql_query:
     login_db: 'mysql'
-    query: >
-      "SELECT Host FROM user
-      WHERE User = '{{ mysql_root_username }}'
-      ORDER BY (Host='localhost') ASC"
+    query: "SELECT Host FROM user WHERE User = '{{ mysql_root_username }}' ORDER BY (Host='localhost') ASC"
   register: mysql_root_hosts
   changed_when: false
   check_mode: false
