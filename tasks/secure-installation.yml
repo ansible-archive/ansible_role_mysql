@@ -5,7 +5,6 @@
     name: "{{ mysql_user_name }}"
     host: 'localhost'
     password: "{{ mysql_user_password }}"
-    login_unix_socket: "{{ mysql_socket }}"
     priv: '*.*:ALL,GRANT'
     state: present
   when: mysql_user_name != mysql_root_username
@@ -89,7 +88,6 @@
   community.mysql.mysql_user:
     name: ""
     host: "{{ item }}"
-    login_unix_socket: "{{ mysql_socket }}"
     state: absent
   with_items: "{{ mysql_anonymous_hosts.stdout_lines|default([]) }}"
 
@@ -97,5 +95,4 @@
   become: true
   community.mysql.mysql_db:
     name: 'test'
-    login_unix_socket: "{{ mysql_socket }}"
     state: absent
