@@ -179,6 +179,10 @@ mysql_packages:
   - python-mysqldb
 ```
 
+#### Optional Versionscheck
+
+You can enable a optional versionscheck, that will prevent you from running a older version of this role at your systems by setting ``submodules_versioncheck`` to ``true``.
+
 ## Dependencies
 
 None.

@@ -129,5 +129,16 @@ mysql_replication_master: ''
 # Same keys as `mysql_users` above.
 mysql_replication_user: []
 
+# optional SSL configuration variables
+# mysql_ssl_ca
+# mysql_ssl_capath
+# mysql_ssl_cert
+# mysql_ssl_key
+# mysql_require_secure_transport
+# mysql_ssl_cipher
+# mysql_ssl_crl
+# mysql_ssl_crlpath
+# mysql_tls_version
+
 # optional version check
 submodules_versioncheck: false
