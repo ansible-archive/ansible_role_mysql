@@ -3,6 +3,7 @@
   become: true
   community.mysql.mysql_db:
     name: "{{ item.name }}"
+    login_unix_socket: "{{ mysql_socket }}"
     collation: "{{ item.collation | default('utf8_general_ci') }}"
     encoding: "{{ item.encoding | default('utf8') }}"
     state: "{{ item.state | default('present') }}"
