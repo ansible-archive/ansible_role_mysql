@@ -76,7 +76,11 @@ pid-file = {{ mysql_pid_file }}
   {% if mysql_replication_role == 'master' -%}
     {{- '\n' -}} log_bin = mysql-bin
     {{- '\n' -}} log-bin-index = mysql-bin.index
-    {{- '\n' -}} expire_logs_days = {{ mysql_expire_logs_days }}
+    {%- if mysql_binlog_expire_logs_seconds | default(false) -%}
+      {{- '\n' -}} binlog_expire_logs_seconds = {{ mysql_binlog_expire_logs_seconds }}
+    {%- else -%}
+      {{- '\n' -}} expire_logs_days = {{ mysql_expire_logs_days }}
+    {%- endif -%}
     {{- '\n' -}} max_binlog_size = {{ mysql_max_binlog_size }}
     {{- '\n' -}} binlog_format = {{mysql_binlog_format}}
 
@@ -108,6 +112,9 @@ user = mysql
 # Memory settings.
 key_buffer_size = {{ mysql_key_buffer_size }}
 max_allowed_packet = {{ mysql_max_allowed_packet }}
+{%- if mysql_table_definition_cache | default(false) -%}
+  {{- '\n' -}} table_definition_cache = {{ mysql_table_definition_cache }}
+{%- endif -%} {{- '\n' -}}
 table_open_cache = {{ mysql_table_open_cache }}
 sort_buffer_size = {{ mysql_sort_buffer_size }}
 read_buffer_size = {{ mysql_read_buffer_size }}
@@ -120,6 +127,9 @@ thread_cache_size = {{ mysql_thread_cache_size }}
   {{- '\n' -}} query_cache_limit = {{ mysql_query_cache_limit }}
 {%- endif -%} {{- '\n' -}}
 max_connections = {{ mysql_max_connections }}
+{%- if mysql_temptable_max_ram | default(false) -%}
+  {{- '\n' -}} temptable_max_ram: {{ mysql_temptable_max_ram }}
+{%- endif -%} {{- '\n' -}}
 tmp_table_size = {{ mysql_tmp_table_size }}
 max_heap_table_size = {{ mysql_max_heap_table_size }}
 group_concat_max_len = {{ mysql_group_concat_max_len }}
